@@ -1,0 +1,79 @@
+
+> better-auth-svelte-ui@0.0.1 build-storybook /workspaces/better-auth-svelte-ui
+> storybook build --output-dir\=/tmp/chromatic--35133-40Si8Jv0KRnt
+
+
+[90m┌[39m  Building storybook v10.1.2
+[90m│[39m
+[32m◇[39m  Cleaning outputDir: [36m../../tmp/chromatic--35133-40Si8Jv0KRnt[39m
+[90m│[39m
+[32m◇[39m  Loading presets
+[90m│[39m
+[32m◇[39m  Building manager..
+[90m│[39m
+[34m●[39m  Building preview..
+[90m│[39m
+[33m▲[39m  No story files found for the specified pattern: [34msrc/**/*.mdx[39m
+[90m│[39m  [43mVite[49m [36mvite v7.2.4 [32mbuilding client environment for production...[36m[39m
+[90m│[39m  [43mVite[49m transforming...
+[90m│[39m  [43mVite[49m [32m✓[39m 283 modules transformed.
+[90m│[39m  [43mVite[49m rendering chunks...
+[90m│[39m  [43mVite[49m computing gzip size...
+[90m│[39m  [43mVite[49m [2m../../tmp/chromatic--35133-40Si8Jv0KRnt/[22m[32miframe.html[39m[1m[2m[22m
+[90m│[39m  [2m18.17 kB[22m[1m[22m[2m │ gzip:   5.11 kB[22m
+[90m│[39m  [43mVite[49m
+[90m│[39m  [2m../../tmp/chromatic--35133-40Si8Jv0KRnt/[22m[2massets/[22m[35miframe-Cj6qkqpk.css[39m[1m[2m[22m
+[90m│[39m  [2m23.85 kB[22m[1m[22m[2m │ gzip:   5.17 kB[22m
+[90m│[39m  [43mVite[49m
+[90m│[39m  [2m../../tmp/chromatic--35133-40Si8Jv0KRnt/[22m[2massets/[22m[36m_commonjsHelpers-CqkleIqs.js[39m[1m[2m[22m
+[90m│[39m  [2m0.12 kB[22m[1m[22m[2m │ gzip:   0.13 kB[22m
+[90m│[39m  [43mVite[49m
+[90m│[39m  [2m../../tmp/chromatic--35133-40Si8Jv0KRnt/[22m[2massets/[22m[36mformatter-QJ4M4OGQ-B0hu898a.js[39m[1m[2m[22m
+[90m│[39m  [2m0.27 kB[22m[1m[22m[2m │ gzip:   0.23 kB[22m
+[90m│[39m  [43mVite[49m [2m../../tmp/chromatic--35133-40Si8Jv0KRnt/[22m[2massets/[22m[36mindex-ChGG4DO_.js[39m[1m[2m[22m
+[90m│[39m  [2m0.54 kB[22m[1m[22m[2m │ gzip:   0.35 kB[22m
+[90m│[39m  [43mVite[49m
+[90m│[39m  [2m../../tmp/chromatic--35133-40Si8Jv0KRnt/[22m[2massets/[22m[36mpreload-helper-PPVm8Dsz.js[39m[1m[2m[22m
+[90m│[39m  [2m1.23 kB[22m[1m[22m[2m │ gzip:   0.71 kB[22m
+[90m│[39m  [43mVite[49m
+[90m│[39m  [2m../../tmp/chromatic--35133-40Si8Jv0KRnt/[22m[2massets/[22m[36mSignedIn.stories-CcegG85P.js[39m[1m[2m[22m
+[90m│[39m  [2m2.15 kB[22m[1m[22m[2m │ gzip:   0.99 kB[22m
+[90m│[39m  [43mVite[49m
+[90m│[39m  [2m../../tmp/chromatic--35133-40Si8Jv0KRnt/[22m[36mvite-inject-mocker-entry.js[39m[1m[2m[22m
+[90m│[39m  [2m28.30 kB[22m[1m[22m[2m │ gzip:   9.84 kB[22m
+[90m│[39m  [43mVite[49m
+[90m│[39m  [2m../../tmp/chromatic--35133-40Si8Jv0KRnt/[22m[2massets/[22m[36mmatchers-DMFSMG2O-HJu_DfWo.js[39m[1m[2m[22m
+[90m│[39m  [2m29.23 kB[22m[1m[22m[2m │ gzip:  10.06 kB[22m
+[90m│[39m  [43mVite[49m
+[90m│[39m  [2m../../tmp/chromatic--35133-40Si8Jv0KRnt/[22m[2massets/[22m[36mColor-ASIRERSW-DPoDkakA.js[39m[1m[2m[22m
+[90m│[39m  [2m29.94 kB[22m[1m[22m[2m │ gzip:  11.37 kB[22m
+[90m│[39m  [43mVite[49m
+[90m│[39m  [2m../../tmp/chromatic--35133-40Si8Jv0KRnt/[22m[2massets/[22m[36mGoogleLoginButton.stories-DR9G04pz.js[39m[1m[2m[22m
+[90m│[39m  [2m31.59 kB[22m[1m[22m[2m │ gzip:  10.67 kB[22m
+[90m│[39m  [43mVite[49m
+[90m│[39m  [2m../../tmp/chromatic--35133-40Si8Jv0KRnt/[22m[2massets/[22m[36mWithTooltip-IO6J4KBT-Xz6BEbT4.js[39m[1m[2m[22m
+[90m│[39m  [2m33.08 kB[22m[1m[22m[2m │ gzip:  11.65 kB[22m
+[90m│[39m  [43mVite[49m
+[90m│[39m  [2m../../tmp/chromatic--35133-40Si8Jv0KRnt/[22m[2massets/[22m[36msyntaxhighlighter-IQDEPFLK-D1VDESBb.js[39m[1m[2m[22m
+[90m│[39m  [2m77.93 kB[22m[1m[22m[2m │ gzip:  27.34 kB[22m
+[90m│[39m  [43mVite[49m [2m../../tmp/chromatic--35133-40Si8Jv0KRnt/[22m[2massets/[22m[36maxe-DRsvgzvk.js[39m
+[90m│[39m  [36m[39m[1m[33m578.29 kB[39m[22m[2m │ gzip: 159.22 kB[22m
+[90m│[39m  [43mVite[49m [2m../../tmp/chromatic--35133-40Si8Jv0KRnt/[22m[2massets/[22m[36miframe-DncwcBVi.js[39m
+[90m│[39m  [36m[39m[1m[33m847.09 kB[39m[22m[2m │ gzip: 240.83 kB[22m
+[90m│[39m  [43mVite[49m
+[90m│[39m  [2m../../tmp/chromatic--35133-40Si8Jv0KRnt/[22m[2massets/[22m[36mDocsRenderer-GHJI37HO-D6ZE4w6l.js[39m
+[90m│[39m  [36m[39m[1m[33m999.65 kB[39m[22m[2m │ gzip: 319.33 kB[22m
+[90m│[39m
+[33m▲[39m  [43mVite[49m[33m
+[90m│[39m  (!) Some chunks are larger than 500 kB after minification. Consider:
+[90m│[39m  - Using dynamic import() to code-split the application
+[90m│[39m  - Use build.rollupOptions.output.manualChunks to improve chunking:
+[90m│[39m  ]8;;https://rollupjs.org/configuration-options/#output-manualchunkshttps://rollupjs.org/configuration-options/#output-manualchunks]8;;
+[90m│[39m  - Adjust chunk size limit for this warning via
+[90m│[39m  build.chunkSizeWarningLimit.[39m
+[90m│[39m  [43mVite[49m [32m✓ built in 17.42s[39m
+[90m│[39m
+[32m◇[39m  Output directory: /tmp/chromatic--35133-40Si8Jv0KRnt
+[90m│[39m
+[90m└[39m  Storybook build completed successfully
+

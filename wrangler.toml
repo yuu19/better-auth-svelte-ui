@@ -1,0 +1,16 @@
+name = "better-auth-svelte-ui"
+account_id = "d8ee18029fb3e06794971d45b9c4a67d"
+main = ".svelte-kit/cloudflare/_worker.js"
+compatibility_date = "2025-11-30"
+compatibility_flags = ["nodejs_compat"]
+assets = { binding = "ASSETS", directory = ".svelte-kit/cloudflare" }
+
+[observability]
+enabled = true
+head_sampling_rate = 1
+
+[[d1_databases]]
+binding = "DB"
+database_name = "better-auth-svelte-ui"
+database_id = "95dd42aa-f791-47cd-a822-f46c7d43872c"
+migrations_dir = "drizzle"

@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/svelte';
 
-import SignedIn from './SignedIn.svelte';
+import SignedIn from '$lib/components/SignedIn.svelte';
 
 const meta = {
   title: 'Auth/SignedIn',

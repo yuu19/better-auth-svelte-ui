@@ -1,126 +1,219 @@
 <script lang="ts">
-  import SignedIn from '$lib/components/SignedIn.svelte';
+  import { Mail } from 'lucide-svelte';
+  import { authClient } from '$lib/auth-client';
+  import SocialProvidersRow from '$lib/components/social/SocialProvidersRow.svelte';
 
-  type DemoSession = {
-    userId: string;
-    email: string;
-  };
+  type Mode = 'signIn' | 'signUp';
 
-  const demoSession: DemoSession = {
-    userId: 'user_123',
-    email: 'user@example.com'
-  };
+  let mode = $state<Mode>('signIn');
+  let name = $state('');
+  let email = $state('m@example.com');
+  let password = $state('');
+  let busy = $state(false);
+  let socialBusy = $state(false);
+  let message = $state<'idle' | 'ok' | 'error'>('idle');
 
-  let isSignedIn = $state(true);
-  const session = $derived<DemoSession | null>(isSignedIn ? demoSession : null);
+  const copy = $derived(
+    mode === 'signIn'
+      ? {
+          title: 'Sign In',
+          subtitle: 'Enter your email below to login to your account',
+          cta: 'Login',
+          magicLabel: 'Sign in with Magic Link',
+          switchPrompt: "Don't have an account?",
+          switchLabel: 'Sign Up'
+        }
+      : {
+          title: 'Sign Up',
+          subtitle: 'Enter your information to create an account',
+          cta: 'Create an account',
+          magicLabel: 'Sign up with Magic Link',
+          switchPrompt: 'Already have an account?',
+          switchLabel: 'Sign In'
+        }
+  );
 
-  function toggleSession() {
-    isSignedIn = !isSignedIn;
+  function switchMode(next: Mode) {
+    if (mode === next) return;
+    mode = next;
+    message = 'idle';
+  }
+
+  async function handleSubmit(event: Event) {
+    event.preventDefault();
+    busy = true;
+    message = 'idle';
+    const path =
+      mode === 'signIn' ? 'sign-in/email' : 'sign-up/email';
+    try {
+      const res = (await authClient.$fetch(path, {
+        method: 'POST',
+        body: { email, password, name: mode === 'signUp' ? name : undefined }
+      })) as { url?: string };
+
+      if (res?.url) {
+        window.location.href = res.url;
+        return;
+      }
+      message = 'ok';
+    } catch (e) {
+      console.error(e);
+      message = 'error';
+    } finally {
+      busy = false;
+    }
+  }
+
+  async function handleMagicLink() {
+    busy = true;
+    message = 'idle';
+    const path =
+      mode === 'signIn' ? 'sign-in/magic-link' : 'sign-up/magic-link';
+    try {
+      await authClient.$fetch(path, {
+        method: 'POST',
+        body: { email, name: mode === 'signUp' ? name : undefined }
+      });
+      message = 'ok';
+    } catch (e) {
+      console.error(e);
+      message = 'error';
+    } finally {
+      busy = false;
+    }
+  }
+
+  async function handleGoogle() {
+    socialBusy = true;
+    message = 'idle';
+    try {
+      // better-auth client handles redirects automatically when the provider flow returns a URL
+      const res = await authClient.signIn.social({ provider: 'google' });
+      // If an ID token flow is used and no redirect occurs, show success feedback
+      if (res?.redirect === false) message = 'ok';
+    } catch (e) {
+      console.error(e);
+      message = 'error';
+    } finally {
+      socialBusy = false;
+    }
   }
 </script>
 
 <svelte:head>
-  <title>better-auth-svelte-ui</title>
-  <meta name="description" content="Better Auth Svelte UI starter" />
+  <title>Better Auth Svelte UI | {copy.title}</title>
 </svelte:head>
 
-<main class="content">
-  <h1>better-auth-svelte-ui</h1>
-  <p>
-    This SvelteKit app is ready for building authentication components with Better Auth,
-    Tailwind CSS, and shadcn-svelte.
-  </p>
-  <p>
-    Start the dev server with <code>npm run dev</code> and begin iterating in
-    <code>src/routes</code>.
-  </p>
-
-  <section class="card">
-    <h2>Auth/SignedIn demo</h2>
-    <p>Toggle the session state to verify the SignedIn component renders protected content.</p>
-
-    <div class="controls">
-      <button class="button" type="button" onclick={toggleSession}>
-        {isSignedIn ? 'Sign out' : 'Sign in'}
+<main class="min-h-screen bg-gradient-to-b from-slate-100 via-white to-slate-100 py-12">
+  <div class="mx-auto max-w-md rounded-3xl border border-slate-200 bg-white p-6 shadow-[0_12px_40px_-16px_rgba(0,0,0,0.18)]">
+    <div class="flex items-center gap-2 rounded-2xl bg-slate-100 p-1 text-sm font-semibold text-slate-500">
+      <button
+        type="button"
+        class={`flex-1 rounded-xl px-3 py-2 transition ${mode === 'signIn' ? 'bg-white text-slate-900 shadow-sm' : ''}`}
+        onclick={() => switchMode('signIn')}
+      >
+        Sign In
       </button>
-      <p class="status">Session: {isSignedIn ? 'Active' : 'None'}</p>
+      <button
+        type="button"
+        class={`flex-1 rounded-xl px-3 py-2 transition ${mode === 'signUp' ? 'bg-white text-slate-900 shadow-sm' : ''}`}
+        onclick={() => switchMode('signUp')}
+      >
+        Sign Up
+      </button>
     </div>
 
-    <SignedIn session={session}>
-      <p class="protected">Protected content is visible because a session is present.</p>
-    </SignedIn>
+    <div class="mt-6 space-y-2">
+      <h1 class="text-3xl font-semibold text-slate-900">{copy.title}</h1>
+      <p class="text-sm text-slate-500">{copy.subtitle}</p>
+    </div>
 
-    {#if !isSignedIn}
-      <p class="muted">Activate a session to reveal protected content.</p>
-    {/if}
-  </section>
+    <form class="mt-6 space-y-4" onsubmit={handleSubmit}>
+      {#if mode === 'signUp'}
+        <div class="space-y-2">
+          <label class="text-sm font-semibold text-slate-800" for="name">Name</label>
+          <input
+            id="name"
+            name="name"
+            class="w-full rounded-xl border border-slate-200 bg-white px-3.5 py-2.5 text-sm text-slate-900 shadow-inner outline-none transition focus:border-slate-400"
+            placeholder="Name"
+            bind:value={name}
+            required
+          />
+        </div>
+      {/if}
+
+      <div class="space-y-2">
+        <label class="text-sm font-semibold text-slate-800" for="email">Email</label>
+        <input
+          id="email"
+          name="email"
+          type="email"
+          class="w-full rounded-xl border border-slate-200 bg-white px-3.5 py-2.5 text-sm text-slate-900 shadow-inner outline-none transition focus:border-slate-400"
+          placeholder="m@example.com"
+          bind:value={email}
+          required
+        />
+      </div>
+
+      <div class="space-y-2">
+        <div class="flex items-center justify-between text-sm font-semibold text-slate-800">
+          <label for="password">Password</label>
+          {#if mode === 'signIn'}
+            <a href="/reset" class="text-slate-500 hover:text-slate-700">Forgot your password?</a>
+          {/if}
+        </div>
+        <input
+          id="password"
+          name="password"
+          type="password"
+          class="w-full rounded-xl border border-slate-200 bg-white px-3.5 py-2.5 text-sm text-slate-900 shadow-inner outline-none transition focus:border-slate-400"
+          placeholder="Password"
+          bind:value={password}
+          required
+        />
+      </div>
+
+      <button
+        type="submit"
+        class="w-full rounded-xl bg-slate-900 px-4 py-2.5 text-sm font-semibold text-white shadow transition hover:bg-slate-800 disabled:cursor-not-allowed disabled:opacity-70"
+        disabled={busy}
+      >
+        {busy ? 'Working...' : copy.cta}
+      </button>
+
+      <button
+        type="button"
+        class="flex w-full items-center justify-center gap-2 rounded-xl bg-slate-50 px-4 py-2.5 text-sm font-semibold text-slate-800 ring-1 ring-slate-200 transition hover:bg-slate-100 disabled:opacity-60"
+        onclick={handleMagicLink}
+        disabled={busy}
+      >
+        <Mail class="h-4 w-4" /> {copy.magicLabel}
+      </button>
+
+      <SocialProvidersRow
+        disabled={busy || socialBusy}
+        onGoogle={handleGoogle}
+        googleLoading={socialBusy}
+      />
+
+      <p class="pt-2 text-center text-sm text-slate-600">
+        {copy.switchPrompt}
+        <button
+          type="button"
+          class="font-semibold text-slate-900 underline underline-offset-4"
+          onclick={() => switchMode(mode === 'signIn' ? 'signUp' : 'signIn')}
+        >
+          {copy.switchLabel}
+        </button>
+      </p>
+      {#if message === 'ok'}
+        <p class="text-center text-sm font-semibold text-emerald-600">
+          {mode === 'signIn' ? 'Success! You are logged in.' : 'Almost there—check your email to verify your account.'}
+        </p>
+      {:else if message === 'error'}
+        <p class="text-center text-sm font-semibold text-rose-600">Something went wrong.</p>
+      {/if}
+    </form>
+  </div>
 </main>
-
-<style>
-  main {
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-    margin: 0 auto;
-    max-width: 720px;
-    padding: 2.5rem 1.5rem;
-    line-height: 1.6;
-  }
-
-  h1 {
-    font-size: clamp(2rem, 4vw, 2.5rem);
-    font-weight: 700;
-    margin-bottom: 0.5rem;
-  }
-
-  h2 {
-    font-size: 1.25rem;
-    font-weight: 700;
-    margin-bottom: 0.35rem;
-  }
-
-  .card {
-    margin-top: 2rem;
-    padding: 1.5rem;
-    border: 1px solid #e5e7eb;
-    border-radius: 0.75rem;
-    background: #fff;
-    box-shadow: 0 10px 15px -3px rgba(15, 23, 42, 0.05), 0 4px 6px -4px rgba(15, 23, 42, 0.05);
-  }
-
-  .controls {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    margin-top: 0.75rem;
-    margin-bottom: 0.5rem;
-  }
-
-  .button {
-    background: #111827;
-    color: #f9fafb;
-    border: none;
-    border-radius: 0.5rem;
-    padding: 0.55rem 1rem;
-    font-weight: 600;
-    cursor: pointer;
-  }
-
-  .button:hover {
-    background: #0b1220;
-  }
-
-  .status {
-    color: #374151;
-    font-weight: 600;
-  }
-
-  .protected {
-    margin-top: 0.75rem;
-    font-weight: 600;
-    color: #065f46;
-  }
-
-  .muted {
-    color: #6b7280;
-    margin-top: 0.5rem;
-  }
-</style>

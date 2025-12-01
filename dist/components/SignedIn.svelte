@@ -14,11 +14,14 @@
   let contextSession = $state<unknown | null | undefined>(null);
   let unsubscribe: (() => void) | undefined;
 
-  if (context) {
-    const store = context.hooks.useSession();
+  function subscribeSession<T>(store: Readable<SessionState<T>>) {
     unsubscribe = store.subscribe((value) => {
       contextSession = value?.data ?? null;
     });
+  }
+
+  if (context) {
+    subscribeSession(context.hooks.useSession());
   }
 
   onDestroy(() => unsubscribe?.());

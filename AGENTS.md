@@ -2,15 +2,19 @@
 
 svelte5 tailwind css shadcn-svelteを使用してbetter-auth用のsvelteコンポーネントを作成する。
 
-リポジトリを参照する際はdeepwiki mcpを経由してください
-以下のreact用プロジェクトを参考にしてください 
-https://github.com/better-auth-ui/better-auth-ui
+以下のreact用プロジェクトのsvelte版を想定しています。 
+リポジトリurl: https://github.com/better-auth-ui/better-auth-ui
+
+shadcn svelteのコンポーネントはsrc/lib/components/ui以下にはshadcn svelteが提供するコンポーネントを配置しています  shadcn svelteが提供するコンポーネントをベースにbetter-auth用のコンポーネントを作成します。
+
+
+リポジトリを参照する際はmcp_servers.deepwikiを経由してください ただしmcp_servers.deepwikiを使用できない場合は直にリポジトリurlを参照して下さい
+
+
 
 参考
-better-auth
-https://github.com/better-auth/better-auth
-shadcn-svelte
-https://github.com/huntabyte/shadcn-svelte
+better-authのリポジトリurl: https://github.com/better-auth/better-auth
+shadcn-svelteのリポジトリurl: https://github.com/huntabyte/shadcn-svelte
 
 
 Svelteの実装については以下を参照してください
