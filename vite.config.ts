@@ -2,9 +2,8 @@ import tailwindcss from '@tailwindcss/vite';
 import { sveltekit } from '@sveltejs/kit/vite';
 import { playwright } from '@vitest/browser-playwright';
 import { defineConfig } from 'vitest/config';
-import { cloudflare } from "@cloudflare/vite-plugin";
 export default defineConfig({
-  plugins: [tailwindcss(), sveltekit(), cloudflare()],
+  plugins: [tailwindcss(), sveltekit()],
   test: {
     expect: { requireAssertions: true },
     projects: [
